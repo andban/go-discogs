@@ -40,6 +40,12 @@ func TestNewClient(t *testing.T) {
 			Currency:  "USD",
 			Token:     "some token",
 		}, nil},
+		"api key": {&Options{
+			UserAgent: testUserAgent,
+			Currency:  "USD",
+			Key:       "some key",
+			Secret:    "some secret",
+		}, nil},
 		"incorrect user-agent": {&Options{
 			UserAgent: "",
 			Currency:  "USD",
@@ -48,6 +54,16 @@ func TestNewClient(t *testing.T) {
 			UserAgent: testUserAgent,
 			Currency:  "RUR",
 		}, ErrCurrencyNotSupported},
+		"missing api key": {&Options{
+			UserAgent: testUserAgent,
+			Currency:  "USD",
+			Secret:    "some secret",
+		}, ErrCredentialsIncomplete},
+		"missing api secret": {&Options{
+			UserAgent: testUserAgent,
+			Currency:  "USD",
+			Key:       "some key",
+		}, ErrCredentialsIncomplete},
 	}
 
 	for name := range tests {

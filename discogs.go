@@ -18,6 +18,8 @@ type Options struct {
 	Currency  string
 	UserAgent string
 	Token     string
+	Key       string
+	Secret    string
 }
 
 // Client is a Discogs client for making Discogs API requests.
@@ -43,9 +45,16 @@ func NewClient(o *Options) (*Client, error) {
 		return nil, err
 	}
 
+	// if api key is present, secret must be present too (and vice versa)
+	if (o.Key == "") != (o.Secret == "") {
+		return nil, ErrCredentialsIncomplete
+	}
+
 	// set token, it's required for some queries like search
 	if o.Token != "" {
 		header.Add("Authorization", "Discogs token="+o.Token)
+	} else if o.Key != "" && o.Secret != "" {
+		header.Add("Authorization", "Discogs key="+o.Key+", secret="+o.Secret)
 	}
 
 	if o.URL == "" {

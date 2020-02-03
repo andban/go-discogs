@@ -16,7 +16,8 @@ func (e *Error) Error() string {
 
 // APIErrors
 var (
-	ErrUnauthorized         = &Error{"authentication required"}
-	ErrCurrencyNotSupported = &Error{"currency does not supported"}
-	ErrUserAgentInvalid     = &Error{"invalid user-agent"}
+	ErrUnauthorized          = &Error{"authentication required"}
+	ErrCurrencyNotSupported  = &Error{"currency does not supported"}
+	ErrUserAgentInvalid      = &Error{"invalid user-agent"}
+	ErrCredentialsIncomplete = &Error{"incomplete api key / secret pair"}
 )
